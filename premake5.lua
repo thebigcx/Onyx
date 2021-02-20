@@ -7,6 +7,10 @@ project "onyx"
     targetdir "bin/%{cfg.buildcfg}/onyx"
     objdir "bin/%{cfg.buildcfg}/onyx"
 
+    includedirs {
+        "include"
+    }
+
     files {
         "include/**.h", "src/**.cpp"
     }
@@ -37,7 +41,9 @@ project "test"
     }
 
     links {
-        "onyx"
+        "onyx",
+        "dl",
+        "glfw"
     }
 
     filter "configurations:debug"
