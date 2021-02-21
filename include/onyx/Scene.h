@@ -26,8 +26,6 @@ protected:
 
     std::vector<std::shared_ptr<GameObject>> m_objects;
 
-    std::shared_ptr<Texture> m_texture;
-
 private:
     void internalUpdate(float dt);
     void internalInit();

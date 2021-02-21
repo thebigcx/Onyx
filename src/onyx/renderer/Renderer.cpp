@@ -26,6 +26,9 @@ void Renderer::init()
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, uv)));
     glEnableVertexAttribArray(1);
 
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, color)));
+    glEnableVertexAttribArray(2);
+
     m_data.vertexBase = new Vertex[RendererData::MAX_VERTICES];
     m_data.vertexPtr = m_data.vertexBase;
 
@@ -47,6 +50,9 @@ void Renderer::init()
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint32_t) * RendererData::MAX_INDICES, indices, GL_STATIC_DRAW);
 
     m_data.shader = std::make_shared<Shader>("assets/Texture.vert", "assets/Texture.frag");
+
+    uint32_t white = 0xffffffff;
+    m_data.whiteTexture = std::make_shared<Texture>(1, 1, &white);
 }
 
 void Renderer::finalize()
@@ -63,14 +69,14 @@ void Renderer::start()
     m_data.vertexPtr = m_data.vertexBase;
 }
 
-void Renderer::render(const Vector2f& pos, const Vector2f& size, const Vector4f& color)
+void Renderer::render(const Vector2f& pos, const Vector2f& size, const Vector3f& color)
 {
-    //render(White Texture)
+    render(m_data.whiteTexture, pos, size, color);
 }
 
-void Renderer::render(const std::shared_ptr<Texture>& texture, const Vector2f& pos, const Vector2f& size)
+void Renderer::render(const std::shared_ptr<Texture>& texture, const Vector2f& pos, const Vector2f& size, const Vector3f& color)
 {
-    m_data.texture = texture;
+    m_data.currentTexture = texture;
 
     const Vector2f uvs[4]
     {
@@ -82,18 +88,22 @@ void Renderer::render(const std::shared_ptr<Texture>& texture, const Vector2f& p
 
     m_data.vertexPtr->pos = pos;
     m_data.vertexPtr->uv = uvs[0];
+    m_data.vertexPtr->color = color;
     m_data.vertexPtr++;
 
     m_data.vertexPtr->pos = { pos.x + size.x, pos.y };
     m_data.vertexPtr->uv = uvs[1];
+    m_data.vertexPtr->color = color;
     m_data.vertexPtr++;
 
     m_data.vertexPtr->pos = { pos.x + size.x, pos.y + size.y };
     m_data.vertexPtr->uv = uvs[2];
+    m_data.vertexPtr->color = color;
     m_data.vertexPtr++;
 
     m_data.vertexPtr->pos = { pos.x, pos.y + size.y };
     m_data.vertexPtr->uv = uvs[3];
+    m_data.vertexPtr->color = color;
     m_data.vertexPtr++;
 
     m_data.vertexCount += 4;
@@ -111,9 +121,9 @@ void Renderer::end()
     m_data.shader->setMatrix4f("uView", Game::getInstance()->getScene()->getCamera()->getViewMatrix());
     m_data.shader->setMatrix4f("uProjection", Game::getInstance()->getScene()->getCamera()->getProjectionMatrix());
 
-    if (m_data.texture)
+    if (m_data.currentTexture)
     {
-        m_data.texture->bind();
+        m_data.currentTexture->bind();
     }
 
     glDrawElements(GL_TRIANGLES, m_data.vertexCount * 6/4, GL_UNSIGNED_INT, 0);

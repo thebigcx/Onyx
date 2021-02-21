@@ -5,8 +5,9 @@
 namespace Onyx
 {
 
-struct Transform
+class Transform
 {
+public:
     Vector2f translation;
     float rotation = 0;
     Vector2f scale;

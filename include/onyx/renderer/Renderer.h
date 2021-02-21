@@ -16,6 +16,7 @@ struct Vertex
 {
     Vector2f pos;
     Vector2f uv;
+    Vector3f color;
 };
 
 struct RendererData
@@ -35,7 +36,8 @@ struct RendererData
 
     std::shared_ptr<Shader> shader;
 
-    std::shared_ptr<Texture> texture;
+    std::shared_ptr<Texture> currentTexture;
+    std::shared_ptr<Texture> whiteTexture;
 };
 
 class Renderer
@@ -45,8 +47,8 @@ public:
     static void finalize();
 
     static void start();
-    static void render(const Vector2f& pos, const Vector2f& size, const Vector4f& color);
-    static void render(const std::shared_ptr<Texture>& texture, const Vector2f& pos, const Vector2f& size);
+    static void render(const Vector2f& pos, const Vector2f& size, const Vector3f& color);
+    static void render(const std::shared_ptr<Texture>& texture, const Vector2f& pos, const Vector2f& size, const Vector3f& color = Vector3f(1, 1, 1));
     static void end();
 
 private:

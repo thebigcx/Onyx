@@ -4,6 +4,7 @@
 
 #include <string>
 #include <cstdint>
+#include <memory>
 
 namespace Onyx
 {
@@ -12,6 +13,7 @@ class Texture
 {
 public:
     Texture(const std::string& path);
+    Texture(uint32_t width, uint32_t height, void* data);
     ~Texture();
 
     void bind(uint32_t slot = 0) const;

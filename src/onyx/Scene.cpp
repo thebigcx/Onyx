@@ -24,8 +24,6 @@ void Scene::internalRender()
     {
         object->render();
     }
-    
-    Renderer::render(m_texture, Vector2f(0, 0), Vector2f(100, 100));
 
     Renderer::end();
 }
@@ -33,7 +31,6 @@ void Scene::internalRender()
 void Scene::internalInit()
 {
     m_camera = std::make_shared<Camera>();
-    m_texture = std::make_shared<Texture>("assets/test.png");
 
     for (auto& object : m_objects)
     {

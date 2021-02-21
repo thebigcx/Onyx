@@ -1,5 +1,6 @@
 #include <onyx/GameObject.h>
 #include <onyx/Component.h>
+#include <onyx/Transform.h>
 
 namespace Onyx
 {
@@ -7,7 +8,7 @@ namespace Onyx
 GameObject::GameObject(const std::string& name)
     : m_name(name)
 {
-
+    m_transform = std::make_shared<Transform>();
 }
 
 void GameObject::init()
@@ -33,6 +34,8 @@ void GameObject::render()
 
 void GameObject::addComponent(Component* component)
 {
+    component->object = this;
+    component->init();
     m_components.emplace_back(component);
 }
 
