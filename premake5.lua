@@ -9,7 +9,8 @@ project "onyx"
     objdir "bin/%{cfg.buildcfg}/onyx"
 
     includedirs {
-        "include"
+        "include",
+        "include/vendor"
     }
 
     files {
@@ -31,7 +32,8 @@ project "test"
     objdir "obj/%{cfg.buildcfg}/test"
 
     includedirs {
-        "include"
+        "include",
+        "include/vendor"
     }
 
     libdirs {

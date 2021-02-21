@@ -20,7 +20,7 @@ void Game::run()
     while (m_window->isOpen())
     {
         glClearColor(0, 0, 0, 1);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         m_scene->internalUpdate(5);
         m_scene->internalRender();

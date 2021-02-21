@@ -1,6 +1,7 @@
 #include <onyx/Scene.h>
 #include <onyx/GameObject.h>
 #include <onyx/renderer/Renderer.h>
+#include <onyx/renderer/Texture.h>
 
 namespace Onyx
 {
@@ -23,7 +24,8 @@ void Scene::internalRender()
     {
         object->render();
     }
-    Renderer::render(Vector2f(0, 0), Vector2f(100, 100), Vector4f(1, 1, 1, 1));
+    
+    Renderer::render(m_texture, Vector2f(0, 0), Vector2f(100, 100));
 
     Renderer::end();
 }
@@ -31,6 +33,7 @@ void Scene::internalRender()
 void Scene::internalInit()
 {
     m_camera = std::make_shared<Camera>();
+    m_texture = std::make_shared<Texture>("assets/test.png");
 
     for (auto& object : m_objects)
     {

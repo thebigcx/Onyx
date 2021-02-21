@@ -8,6 +8,7 @@
 namespace Onyx
 {
 
+class Texture;
 class GameObject;
 
 class Scene
@@ -24,6 +25,8 @@ protected:
     std::shared_ptr<Camera> m_camera;
 
     std::vector<std::shared_ptr<GameObject>> m_objects;
+
+    std::shared_ptr<Texture> m_texture;
 
 private:
     void internalUpdate(float dt);

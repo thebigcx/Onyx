@@ -10,6 +10,8 @@
 namespace Onyx
 {
 
+class Texture;
+
 struct Vertex
 {
     Vector2f pos;
@@ -32,6 +34,8 @@ struct RendererData
     uint32_t vertexCount = 0;
 
     std::shared_ptr<Shader> shader;
+
+    std::shared_ptr<Texture> texture;
 };
 
 class Renderer
@@ -42,6 +46,7 @@ public:
 
     static void start();
     static void render(const Vector2f& pos, const Vector2f& size, const Vector4f& color);
+    static void render(const std::shared_ptr<Texture>& texture, const Vector2f& pos, const Vector2f& size);
     static void end();
 
 private:

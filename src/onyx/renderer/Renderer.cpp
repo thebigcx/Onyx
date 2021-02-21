@@ -1,6 +1,7 @@
 #include <onyx/renderer/Renderer.h>
 #include <onyx/Game.h>
 #include <onyx/Scene.h>
+#include <onyx/renderer/Texture.h>
 
 #include <GL/glew.h>
 
@@ -51,6 +52,10 @@ void Renderer::init()
 void Renderer::finalize()
 {
     delete m_data.vertexBase;
+
+    glDeleteVertexArrays(1, &m_data.vao);
+    glDeleteBuffers(1, &m_data.vbo);
+    glDeleteBuffers(1, &m_data.ebo);
 }
 
 void Renderer::start()
@@ -60,6 +65,13 @@ void Renderer::start()
 
 void Renderer::render(const Vector2f& pos, const Vector2f& size, const Vector4f& color)
 {
+    //render(White Texture)
+}
+
+void Renderer::render(const std::shared_ptr<Texture>& texture, const Vector2f& pos, const Vector2f& size)
+{
+    m_data.texture = texture;
+
     const Vector2f uvs[4]
     {
         { 0.f, 0.f },
@@ -98,6 +110,11 @@ void Renderer::end()
     m_data.shader->setMatrix4f("uTransform", Matrix4f(1.f));
     m_data.shader->setMatrix4f("uView", Game::getInstance()->getScene()->getCamera()->getViewMatrix());
     m_data.shader->setMatrix4f("uProjection", Game::getInstance()->getScene()->getCamera()->getProjectionMatrix());
+
+    if (m_data.texture)
+    {
+        m_data.texture->bind();
+    }
 
     glDrawElements(GL_TRIANGLES, m_data.vertexCount * 6/4, GL_UNSIGNED_INT, 0);
 }
