@@ -3,6 +3,7 @@ workspace "onyx"
 
 project "onyx"
     kind "StaticLib"
+    cppdialect "C++17"
 
     targetdir "bin/%{cfg.buildcfg}/onyx"
     objdir "bin/%{cfg.buildcfg}/onyx"
@@ -24,6 +25,7 @@ project "onyx"
 
 project "test"
     kind "ConsoleApp"
+    cppdialect "C++17"
 
     targetdir "bin/%{cfg.buildcfg}/test"
     objdir "obj/%{cfg.buildcfg}/test"
@@ -43,7 +45,9 @@ project "test"
     links {
         "onyx",
         "dl",
-        "glfw"
+        "GL",
+        "glfw",
+        "GLEW"
     }
 
     filter "configurations:debug"

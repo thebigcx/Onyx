@@ -1,21 +1,20 @@
 #include "TestGame.h"
 
-TestGame::TestGame()
-{
+#include <onyx/GameObject.h>
+#include <onyx/Game.h>
 
+void TestScene::init()
+{
+    Onyx::Game::getInstance()->getWindow()->setSize(Onyx::Vector2u(1920, 1080));
 }
 
-void TestGame::init()
+void TestScene::update(float dt)
 {
     
 }
 
-void TestGame::update(float dt)
+TestGame::TestGame()
 {
-
-}
-
-void TestGame::finalize()
-{
-
+    m_scene = std::make_shared<TestScene>();
+    changeScene(m_scene);
 }
