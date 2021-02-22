@@ -1,8 +1,9 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 
-#include <onyx/Window.h>
+#include <onyx/core/Window.h>
 
 namespace Onyx
 {
@@ -16,7 +17,7 @@ public:
 
     void run();
 
-    void changeScene(const std::shared_ptr<Scene>& scene);
+    void changeScene(const std::string& name);
 
     const std::shared_ptr<Scene>& getScene() const { return m_scene; }
     const std::shared_ptr<Window>& getWindow() const { return m_window; }
@@ -25,6 +26,9 @@ public:
     {
         return m_instance;
     }
+
+protected:
+    std::vector<std::shared_ptr<Scene>> m_scenes;
 
 private:
     static inline Game* m_instance = nullptr;

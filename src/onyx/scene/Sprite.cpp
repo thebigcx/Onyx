@@ -1,6 +1,6 @@
-#include <onyx/Sprite.h>
-#include <onyx/GameObject.h>
-#include <onyx/Transform.h>
+#include <onyx/scene/Sprite.h>
+#include <onyx/scene/GameObject.h>
+#include <onyx/scene/Transform.h>
 #include <onyx/renderer/Renderer.h>
 
 namespace Onyx

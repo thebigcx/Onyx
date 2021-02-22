@@ -1,5 +1,5 @@
-#include <onyx/Camera.h>
-#include <onyx/Game.h>
+#include <onyx/scene/Camera.h>
+#include <onyx/core/Game.h>
 #include <onyx/maths/Quaternion.h>
 #include <onyx/maths/Math.h>
 

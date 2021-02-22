@@ -1,4 +1,4 @@
-#include <onyx/Window.h>
+#include <onyx/core/Window.h>
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -27,6 +27,19 @@ Window::Window(uint32_t width, uint32_t height, const std::string& title)
     glewInit();
 
     glViewport(0, 0, width, height);
+}
+
+void Window::setFullscreen() const
+{
+    GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+
+    glfwSetWindowMonitor(m_window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+}
+
+void Window::setWindowed(uint32_t width, uint32_t height) const
+{
+    glfwSetWindowMonitor(m_window, nullptr, 0, 0, width, height, 0);
 }
 
 void Window::update() const

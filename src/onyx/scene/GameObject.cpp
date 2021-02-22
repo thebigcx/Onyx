@@ -1,6 +1,6 @@
-#include <onyx/GameObject.h>
-#include <onyx/Component.h>
-#include <onyx/Transform.h>
+#include <onyx/scene/GameObject.h>
+#include <onyx/scene/Component.h>
+#include <onyx/scene/Transform.h>
 
 namespace Onyx
 {

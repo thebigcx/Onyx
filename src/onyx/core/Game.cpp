@@ -1,6 +1,7 @@
-#include <onyx/Game.h>
-#include <onyx/Scene.h>
+#include <onyx/core/Game.h>
+#include <onyx/scene/Scene.h>
 #include <onyx/renderer/Renderer.h>
+#include <onyx/audio/Audio.h>
 
 #include <GL/glew.h>
 
@@ -13,6 +14,7 @@ Game::Game()
     m_window = std::make_unique<Window>(600, 600, "Game");
 
     Renderer::init();
+    Audio::init();
 }
 
 void Game::run()
@@ -28,13 +30,27 @@ void Game::run()
         m_window->update();
     }
 
+    for (auto& scene : m_scenes)
+    {
+        scene.reset();
+    }
+    m_scene = nullptr;
+
     Renderer::finalize();
+    Audio::finalize();
 }
 
-void Game::changeScene(const std::shared_ptr<Scene>& scene)
+void Game::changeScene(const std::string& name)
 {
-    m_scene = scene;
-    m_scene->internalInit();
+    for (auto& scene : m_scenes)
+    {
+        if (scene->name == name)
+        {
+            m_scene = scene;
+            m_scene->internalInit();
+            return;
+        }
+    }
 }
 
 }

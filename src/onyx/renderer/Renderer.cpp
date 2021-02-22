@@ -1,6 +1,6 @@
 #include <onyx/renderer/Renderer.h>
-#include <onyx/Game.h>
-#include <onyx/Scene.h>
+#include <onyx/core/Game.h>
+#include <onyx/scene/Scene.h>
 #include <onyx/renderer/Texture.h>
 
 #include <GL/glew.h>
@@ -67,6 +67,7 @@ void Renderer::finalize()
 void Renderer::start()
 {
     m_data.vertexPtr = m_data.vertexBase;
+    m_data.vertexCount = 0;
 }
 
 void Renderer::render(const Vector2f& pos, const Vector2f& size, const Vector3f& color)

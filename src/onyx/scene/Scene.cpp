@@ -1,10 +1,16 @@
-#include <onyx/Scene.h>
-#include <onyx/GameObject.h>
+#include <onyx/scene/Scene.h>
+#include <onyx/scene/GameObject.h>
 #include <onyx/renderer/Renderer.h>
 #include <onyx/renderer/Texture.h>
 
 namespace Onyx
 {
+
+Scene::Scene(const std::string& name_)
+    : name(name_)
+{
+    
+}
 
 void Scene::internalUpdate(float dt)
 {

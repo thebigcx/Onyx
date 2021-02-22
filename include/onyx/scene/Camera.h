@@ -2,7 +2,7 @@
 
 #include <onyx/maths/Vector2.h>
 #include <onyx/maths/Matrix4.h>
-#include <onyx/Transform.h>
+#include <onyx/scene/Transform.h>
 
 namespace Onyx
 {

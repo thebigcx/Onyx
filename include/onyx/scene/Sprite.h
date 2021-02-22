@@ -1,6 +1,6 @@
 #pragma once
 
-#include <onyx/Component.h>
+#include <onyx/scene/Component.h>
 #include <onyx/maths/Vector3.h>
 
 #include <memory>

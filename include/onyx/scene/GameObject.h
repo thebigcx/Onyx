@@ -26,9 +26,13 @@ public:
         {
             if (dynamic_cast<T*>(component.get()) != nullptr)
             {
-               return std::shared_ptr<T>(static_cast<T*>(component.get()));
+                //return std::shared_ptr<T>(static_cast<T*>(component.get()));
+                //return static_cast<T*>(component.get());
+                return std::static_pointer_cast<T>(component);
             }
         }
+        
+        return nullptr;
     }
 
     const std::shared_ptr<Transform>& getTransform() const { return m_transform; }

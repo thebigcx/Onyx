@@ -18,9 +18,14 @@ public:
     void update() const;
     bool isOpen() const;
 
+    void setFullscreen() const;
+    void setWindowed(uint32_t width, uint32_t height) const;
+
     void setSize(const Vector2u& size);
 
     Vector2u getSize() const;
+
+    GLFWwindow* getNative() const { return m_window; }
 
 private:
     GLFWwindow* m_window = nullptr;

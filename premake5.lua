@@ -49,7 +49,8 @@ project "test"
         "dl",
         "GL",
         "glfw",
-        "GLEW"
+        "GLEW",
+        "openal"
     }
 
     filter "configurations:debug"
