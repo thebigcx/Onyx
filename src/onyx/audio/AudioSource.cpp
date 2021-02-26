@@ -5,11 +5,18 @@
 #include <onyx/core/Game.h>
 #include <onyx/scene/Camera.h>
 #include <onyx/scene/Scene.h>
+#include <onyx/audio/AudioBuffer.h>
+#include <onyx/core/AssetManager.h>
 
 #include <AL/al.h>
 
 namespace Onyx
 {
+
+AudioSource::AudioSource()
+{
+    alGenSources(1, &m_id);
+}
 
 AudioSource::AudioSource(const std::string& path)
 {
@@ -20,7 +27,6 @@ AudioSource::AudioSource(const std::string& path)
 AudioSource::~AudioSource()
 {
     alDeleteSources(1, &m_id);
-    alDeleteBuffers(1, &m_buffer);
 }
 
 void AudioSource::update(float dt)
@@ -34,8 +40,14 @@ void AudioSource::update(float dt)
 
 void AudioSource::setFile(const std::string& path)
 {
-    m_buffer = Audio::createBuffer(path);
-    alSourcei(m_id, AL_BUFFER, m_buffer);
+    m_buffer = AssetManager::getInstance()->getAudio(path);
+    alSourcei(m_id, AL_BUFFER, m_buffer->m_id);
+}
+
+void AudioSource::setBuffer(const std::shared_ptr<AudioBuffer>& buffer)
+{
+    m_buffer = buffer;
+    alSourcei(m_id, AL_BUFFER, m_buffer->m_id);
 }
 
 void AudioSource::play() const

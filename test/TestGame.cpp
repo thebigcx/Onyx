@@ -78,9 +78,8 @@ public:
         sprite->setTexCoords(Onyx::Vector2f(0, 240), Onyx::Vector2f(16, 256));
         object->addComponent(sprite);
 
-        auto script = new Onyx::Script<Bullet>();
-        script->instance->direction = Onyx::Vector2f(0, 1);
-        object->addComponent(script);
+        object->addComponent(new Onyx::Script<Bullet>());
+        object->getComponent<Onyx::Script<Bullet>>()->instance->direction = Onyx::Vector2f(0, 1);
 
         object->getTransform()->scale = Onyx::Vector2f(100, 100);
         object->getTransform()->translation = position;
@@ -129,8 +128,12 @@ void TestScene::init()
     m_sprite->addComponent(sprite);
     m_sprite->addComponent(new Onyx::Script<Player>());
 
+    m_sprite->addComponent(new Onyx::AudioSource("assets/test.mp3"));
+
     m_sprite->getTransform()->scale = Onyx::Vector2f(100, 100);
     addGameObject(m_sprite);
+
+    m_sprite->getComponent<Onyx::AudioSource>()->play();
 
     m_bulletManager = std::make_shared<Onyx::GameObject>("Bullet Manager");
     m_bulletManager->addComponent(new Onyx::Script<BulletManager>());

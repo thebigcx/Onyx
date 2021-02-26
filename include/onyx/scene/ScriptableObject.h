@@ -28,9 +28,9 @@ protected:
         return m_owner->getTransform();
     }
 
-    void instantiate(const std::shared_ptr<GameObject>& go);
+    static void instantiate(const std::shared_ptr<GameObject>& go);
 
-    std::shared_ptr<GameObject> findGameObject(const std::string& name);
+    static std::shared_ptr<GameObject> findGameObject(const std::string& name);
 
 private:
     GameObject* m_owner;

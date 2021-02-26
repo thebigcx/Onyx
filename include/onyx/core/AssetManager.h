@@ -43,6 +43,7 @@ private:
 
 class Texture;
 class Shader;
+class AudioBuffer;
 
 class AssetManager
 {
@@ -55,10 +56,12 @@ public:
 
     std::shared_ptr<Texture> getTexture(const std::string& path);
     std::shared_ptr<Shader> getShader(const std::string& vs, const std::string& fs);
+    std::shared_ptr<AudioBuffer> getAudio(const std::string& path);
 
 private:
     AssetCache<Texture> m_textures;
     AssetCache<Shader> m_shaders;
+    AssetCache<AudioBuffer> m_audios;
 };
 
 }
