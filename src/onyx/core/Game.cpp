@@ -32,6 +32,7 @@ void Game::run()
 
     for (auto& scene : m_scenes)
     {
+        scene->internalDestroy();
         scene.reset();
     }
     m_scene = nullptr;

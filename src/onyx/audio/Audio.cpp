@@ -1,6 +1,8 @@
 #include <onyx/audio/Audio.h>
 
 #include <dr_libs/dr_mp3.h>
+#include <dr_libs/dr_wav.h>
+#include <dr_libs/dr_flac.h>
 
 #include <iostream>
 
@@ -35,12 +37,48 @@ static uint32_t loadMp3(const std::string& path)
 
 static uint32_t loadWav(const std::string& path)
 {
+    drwav wav;
+    if (!drwav_init_file(&wav, path.c_str(), nullptr))
+    {
+        std::cout << "Could not open MP3 file: " << path << "\n";
+        return 0;
+    }
 
+    size_t dataSize = wav.totalPCMFrameCount * wav.channels * sizeof(drwav_int16);
+    drwav_int16* data = (drwav_int16*)malloc(dataSize);
+    drwav_read_pcm_frames_s16(&wav, wav.totalPCMFrameCount, data);
+
+    uint32_t buffer;
+    alGenBuffers(1, &buffer);
+    alBufferData(buffer, AL_FORMAT_STEREO16, data, dataSize, wav.sampleRate);
+
+    drwav_uninit(&wav);
+    free(data);
+
+    return buffer;
 }
 
 static uint32_t loadFlac(const std::string& path)
 {
+    drflac* flac;
+    if (!(flac = drflac_open_file(path.c_str(), nullptr)))
+    {
+        std::cout << "Could not open MP3 file: " << path << "\n";
+        return 0;
+    }
 
+    size_t dataSize = flac->totalPCMFrameCount * flac->channels * sizeof(drflac_int16);
+    drflac_int16* data = (drflac_int16*)malloc(dataSize);
+    drflac_read_pcm_frames_s16(flac, flac->totalPCMFrameCount, data);
+
+    uint32_t buffer;
+    alGenBuffers(1, &buffer);
+    alBufferData(buffer, AL_FORMAT_STEREO16, data, dataSize, flac->sampleRate);
+
+    drflac_close(flac);
+    free(data);
+
+    return buffer;
 }
 
 void Audio::init()
@@ -71,6 +109,9 @@ uint32_t Audio::createBuffer(const std::string& path)
     {
         return loadFlac(path);
     }
+
+    std::cout << "Unsupported audio file format: " << extension << "\n";
+    return 0;
 }
 
 }

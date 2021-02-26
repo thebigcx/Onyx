@@ -43,4 +43,19 @@ void AudioSource::play() const
     alSourcePlay(m_id);
 }
 
+void AudioSource::pause() const
+{
+    alSourcePause(m_id);
+}
+
+void AudioSource::stop() const
+{
+    alSourceStop(m_id);
+}
+
+void AudioSource::rewind() const
+{
+    alSourceRewind(m_id);
+}
+
 }

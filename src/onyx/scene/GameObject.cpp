@@ -5,15 +5,10 @@
 namespace Onyx
 {
 
-GameObject::GameObject(const std::string& name)
-    : m_name(name)
+GameObject::GameObject(const std::string& name_)
+    : name(name_)
 {
     m_transform = std::make_shared<Transform>();
-}
-
-void GameObject::init()
-{
-    
 }
 
 void GameObject::update(float dt)
@@ -32,10 +27,17 @@ void GameObject::render()
     }
 }
 
+void GameObject::destroy()
+{
+    for (auto& component : m_components)
+    {
+        component->destroy();
+    }
+}
+
 void GameObject::addComponent(Component* component)
 {
     component->object = this;
-    component->init();
     m_components.emplace_back(component);
 }
 

@@ -87,6 +87,11 @@ void Shader::setMatrix4f(const std::string& name, const Matrix4f& matrix)
     glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &matrix[0].x);
 }
 
+void Shader::setIntArray(const std::string& name, int32_t* array, uint32_t count)
+{
+    glUniform1iv(getUniformLocation(name), count, array);
+}
+
 void Shader::bind() const
 {
     glUseProgram(m_id);

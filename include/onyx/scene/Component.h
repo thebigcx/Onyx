@@ -12,7 +12,7 @@ public:
     
     virtual void update(float dt) {}
     virtual void render() {}
-    virtual void init() {}
+    virtual void destroy() {}
 
     GameObject* object = nullptr;
 };

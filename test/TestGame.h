@@ -12,7 +12,13 @@ public:
 
 private:
     std::shared_ptr<Onyx::Texture> m_texture;
+    std::shared_ptr<Onyx::Texture> m_texture2;
+
     std::shared_ptr<Onyx::GameObject> m_sprite;
+
+    std::vector<std::shared_ptr<Onyx::GameObject>> m_bullets;
+
+    std::shared_ptr<Onyx::GameObject> m_bulletManager;
 };
 
 class TestGame : public Onyx::Game

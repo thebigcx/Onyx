@@ -19,6 +19,9 @@ public:
     void setFile(const std::string& path);
     
     void play() const;
+    void pause() const;
+    void stop() const;
+    void rewind() const;
 
 private:
     uint32_t m_id;

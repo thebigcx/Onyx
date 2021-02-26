@@ -13,6 +13,7 @@ public:
     Shader(const std::string& vertPath, const std::string& fragPath);
 
     void setMatrix4f(const std::string& name, const Matrix4f& matrix);
+    void setIntArray(const std::string& name, int32_t* array, uint32_t count);
 
     void bind() const;
     void unbind() const;

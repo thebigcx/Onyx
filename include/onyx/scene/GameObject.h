@@ -12,12 +12,10 @@ class Transform;
 
 class GameObject
 {
-public:
-    GameObject(const std::string& name);
+    friend class Scene;
 
-    void init();
-    void update(float dt);
-    void render();
+public:
+    GameObject(const std::string& name_);
 
     template<typename T>
     std::shared_ptr<T> getComponent()
@@ -26,8 +24,6 @@ public:
         {
             if (dynamic_cast<T*>(component.get()) != nullptr)
             {
-                //return std::shared_ptr<T>(static_cast<T*>(component.get()));
-                //return static_cast<T*>(component.get());
                 return std::static_pointer_cast<T>(component);
             }
         }
@@ -39,9 +35,29 @@ public:
     
     void addComponent(Component* component);
 
-private:
-    std::string m_name;
+    template<typename T>
+    bool hasComponent()
+    {
+        for (auto& component : m_components)
+        {
+            if (dynamic_cast<T*>(component.get()) != nullptr)
+            {
+                return true;
+            }
+        }
 
+        return false;
+    }
+
+
+    std::string name;
+
+private:
+    void update(float dt);
+    void render();
+    void destroy();
+
+private:
     std::vector<std::shared_ptr<Component>> m_components;
 
     std::shared_ptr<Transform> m_transform;

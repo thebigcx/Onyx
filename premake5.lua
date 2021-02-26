@@ -10,7 +10,8 @@ project "onyx"
 
     includedirs {
         "include",
-        "include/vendor"
+        "include/vendor",
+        "/usr/local/include/freetype2"
     }
 
     files {
@@ -33,7 +34,8 @@ project "test"
 
     includedirs {
         "include",
-        "include/vendor"
+        "include/vendor",
+        "/usr/local/include/freetype2"
     }
 
     libdirs {
@@ -50,7 +52,8 @@ project "test"
         "GL",
         "glfw",
         "GLEW",
-        "openal"
+        "openal",
+        "freetype"
     }
 
     filter "configurations:debug"

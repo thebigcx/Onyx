@@ -11,12 +11,21 @@ namespace Onyx
 {
 
 class Texture;
+class Font;
 
 struct Vertex
 {
     Vector2f pos;
     Vector2f uv;
     Vector3f color;
+
+    float index;
+};
+
+struct CharacterVertex
+{
+    Vector2f pos;
+    Vector2f uv;
 };
 
 struct RendererData
@@ -36,8 +45,8 @@ struct RendererData
 
     std::shared_ptr<Shader> shader;
 
-    std::shared_ptr<Texture> currentTexture;
-    std::shared_ptr<Texture> whiteTexture;
+    std::shared_ptr<Texture> textures[32];
+    uint32_t textureSlotIndex = 1;
 };
 
 class Renderer
@@ -47,8 +56,13 @@ public:
     static void finalize();
 
     static void start();
+    
     static void render(const Vector2f& pos, const Vector2f& size, const Vector3f& color);
     static void render(const std::shared_ptr<Texture>& texture, const Vector2f& pos, const Vector2f& size, const Vector3f& color = Vector3f(1, 1, 1));
+    static void render(const std::shared_ptr<Texture>& texture, const Vector2f& pos, const Vector2f& size, const Vector2f& uv1, const Vector2f& uv2, const Vector3f& color = Vector3f(1, 1, 1));
+
+    static void render(const std::string& text, const std::shared_ptr<Font>& font);
+
     static void end();
 
 private:

@@ -11,6 +11,7 @@ namespace Onyx
 
 class Texture;
 class GameObject;
+class Font;
 
 class Scene
 {
@@ -26,17 +27,27 @@ public:
 
     std::shared_ptr<Camera> getCamera() const { return m_camera; }
 
+    void addGameObject(const std::shared_ptr<GameObject>& object);
+    void removeGameObject(const std::shared_ptr<GameObject>& object);
+    
+    std::shared_ptr<GameObject> duplicateGameObject(const std::shared_ptr<GameObject>& object);
+
+    std::shared_ptr<GameObject> findGameObject(const std::string& name) const;
+
     std::string name;
 
-protected:
+private:
     std::shared_ptr<Camera> m_camera;
 
     std::vector<std::shared_ptr<GameObject>> m_objects;
+
+    std::shared_ptr<Font> m_font;
 
 private:
     void internalUpdate(float dt);
     void internalInit();
     void internalRender();
+    void internalDestroy();
 };
 
 }

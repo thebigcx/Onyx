@@ -16,8 +16,11 @@ public:
     Quaternion(const Quaternion& q)
         : w(q.w), x(q.x), y(q.y), z(q.z) {}
 
-    Quaternion(T _w, T _x, T _y, T _z)
-        : w(_w), x(_x), y(_y), z(_z) {}
+    Quaternion(T w_, T x_, T y_, T z_)
+        : w(w_), x(x_), y(y_), z(z_) {}
+
+    Quaternion(T w_, const Vector3<T>& vec)
+        : w(w_), x(vec.x), y(vec.y), z(vec.z) {}
 
     Quaternion(const Vector3<T>& eulerAngle)
     {
@@ -232,7 +235,7 @@ Quaternion<T> Quaternion<T>::conjugate(const Quaternion<T>& q)
     float scalar = q.w;
     Vector3<T> imaginary = Vector3<T>(q.x, q.y, q.z) * (-static_cast<T>(1));
 
-    return qua(scalar, imaginary);
+    return Quaternion<T>(scalar, imaginary);
 }
 
 template<typename T>
@@ -244,8 +247,8 @@ Quaternion<T> Quaternion<T>::inverse(const Quaternion<T>& q)
 
     Quaternion<T> conjugateValue = Quaternion<T>::conjugate(q);
 
-    T scalar = conjugateValue.s * absValue;
-    Vector3<T> imaginary = conjugateValue.v * absValue;
+    T scalar = conjugateValue.w * absValue;
+    Vector3<T> imaginary = Vector3<T>(conjugateValue.x, conjugateValue.y, conjugateValue.z) * absValue;
 
     return Quaternion<T>(scalar, imaginary);
 }
