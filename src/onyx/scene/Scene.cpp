@@ -4,7 +4,6 @@
 #include <onyx/renderer/Font.h>
 #include <onyx/scene/Component.h>
 #include <onyx/scene/Sprite.h>
-#include <onyx/scene/Script.h>
 
 #include <algorithm>
 
@@ -17,17 +16,26 @@ Scene::Scene(const std::string& name_)
     
 }
 
-void Scene::addGameObject(const std::shared_ptr<GameObject>& object)
+WeakPtr<GameObject> Scene::createGameObject(const std::string& name)
 {
+    auto object = std::make_shared<GameObject>(name);
     m_objects.push_back(object);
+    return object;
 }
 
-void Scene::removeGameObject(const std::shared_ptr<GameObject>& object)
+void Scene::removeGameObject(GameObject* object)
 {
-    m_objects.erase(std::find(m_objects.begin(), m_objects.end(), object));
+    for (auto it = m_objects.begin(); it != m_objects.end(); it++)
+    {
+        if ((*it).get() == object)
+        {
+            m_deleteList.push_back(it);
+            return;
+        }
+    }
 }
 
-std::shared_ptr<GameObject> Scene::duplicateGameObject(const std::shared_ptr<GameObject>& object)
+WeakPtr<GameObject> Scene::duplicateGameObject(const std::shared_ptr<GameObject>& object)
 {
     auto object2 = std::make_shared<GameObject>(object->name);
 
@@ -38,12 +46,12 @@ std::shared_ptr<GameObject> Scene::duplicateGameObject(const std::shared_ptr<Gam
         object2->addComponent(new Sprite(*object->getComponent<Sprite>()));
     }
 
-    addGameObject(object2);
+    m_objects.push_back(object2);
 
     return object2;
 }
 
-std::shared_ptr<GameObject> Scene::findGameObject(const std::string& name) const
+WeakPtr<GameObject> Scene::findGameObject(const std::string& name) const
 {
     for (auto& object : m_objects)
     {
@@ -65,6 +73,16 @@ void Scene::internalUpdate(float dt)
     }
 
     update(dt);
+
+    for (auto& it : m_deleteList)
+    {
+        if (*it)
+        {
+            (*it)->destroy();
+            m_objects.erase(it);
+        }
+    }
+    m_deleteList.clear();
 }
 
 void Scene::internalRender()
@@ -83,8 +101,6 @@ void Scene::internalRender()
 void Scene::internalInit()
 {
     m_camera = std::make_shared<Camera>();
-
-    m_font = std::make_shared<Font>("assets/test.ttf", 32);
 
     init();
 }

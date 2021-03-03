@@ -52,7 +52,7 @@ void Renderer::init()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_data.ebo);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint32_t) * RendererData::MAX_INDICES, indices, GL_STATIC_DRAW);
 
-    delete indices;
+    delete[] indices;
 
     m_data.shader = std::make_shared<Shader>("assets/Texture.vert", "assets/Texture.frag");
 

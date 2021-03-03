@@ -35,10 +35,12 @@ void GameObject::destroy()
     }
 }
 
-void GameObject::addComponent(Component* component)
+void GameObject::onCollision(GameObject* other)
 {
-    component->object = this;
-    m_components.emplace_back(component);
+    for (auto& component : m_components)
+    {
+        component->onCollision(other);
+    }
 }
 
 }

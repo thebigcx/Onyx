@@ -5,12 +5,22 @@
 namespace Onyx
 {
 
-void ScriptableObject::instantiate(const std::shared_ptr<GameObject>& go)
+WeakPtr<GameObject> ScriptableObject::createGameObject(const std::string& name)
 {
-    Game::getInstance()->getScene()->addGameObject(go);
+    return Game::getInstance()->getScene()->createGameObject(name);
 }
 
-std::shared_ptr<GameObject> ScriptableObject::findGameObject(const std::string& name)
+void ScriptableObject::destroy(const WeakPtr<GameObject>& go)
+{
+    Game::getInstance()->getScene()->removeGameObject(go.get());
+}
+
+void ScriptableObject::destroyThis()
+{
+    Game::getInstance()->getScene()->removeGameObject(object);
+}
+
+WeakPtr<GameObject> ScriptableObject::findGameObject(const std::string& name)
 {
     return Game::getInstance()->getScene()->findGameObject(name);
 }

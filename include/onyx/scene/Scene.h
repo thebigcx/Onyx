@@ -1,6 +1,7 @@
 #pragma once
 
 #include <onyx/scene/Camera.h>
+#include <onyx/core/Core.h>
 
 #include <memory>
 #include <vector>
@@ -27,12 +28,14 @@ public:
 
     std::shared_ptr<Camera> getCamera() const { return m_camera; }
 
-    void addGameObject(const std::shared_ptr<GameObject>& object);
-    void removeGameObject(const std::shared_ptr<GameObject>& object);
+    WeakPtr<GameObject> createGameObject(const std::string& name);
+    void removeGameObject(GameObject* object);
     
-    std::shared_ptr<GameObject> duplicateGameObject(const std::shared_ptr<GameObject>& object);
+    WeakPtr<GameObject> duplicateGameObject(const std::shared_ptr<GameObject>& object);
 
-    std::shared_ptr<GameObject> findGameObject(const std::string& name) const;
+    WeakPtr<GameObject> findGameObject(const std::string& name) const;
+
+    const std::vector<std::shared_ptr<GameObject>>& getObjects() const { return m_objects; }
 
     std::string name;
 
@@ -40,8 +43,7 @@ private:
     std::shared_ptr<Camera> m_camera;
 
     std::vector<std::shared_ptr<GameObject>> m_objects;
-
-    std::shared_ptr<Font> m_font;
+    std::vector<std::vector<std::shared_ptr<GameObject>>::iterator> m_deleteList;
 
 private:
     void internalUpdate(float dt);

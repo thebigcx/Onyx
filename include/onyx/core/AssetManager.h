@@ -1,5 +1,7 @@
 #pragma once
 
+#include <onyx/core/Core.h>
+
 #include <unordered_map>
 #include <string>
 #include <memory>
@@ -11,15 +13,17 @@ template<typename T>
 class AssetCache
 {
 public:
-    AssetCache() {}
-    ~AssetCache() {}
+    ~AssetCache()
+    {
+        m_assets.clear();
+    }
 
     void add(const std::string& name, const std::shared_ptr<T>& asset)
     {
         m_assets.emplace(std::make_pair(name, asset));
     }
 
-    std::shared_ptr<T> get(const std::string& name)
+    WeakPtr<T> get(const std::string& name)
     {
         return m_assets[name];
     }
@@ -35,6 +39,11 @@ public:
     bool exists(const std::string& name)
     {
         return m_assets.find(name) != m_assets.end();
+    }
+
+    void flush()
+    {
+        m_assets.clear();
     }
 
 private:
@@ -54,9 +63,11 @@ public:
         return &manager;
     }
 
-    std::shared_ptr<Texture> getTexture(const std::string& path);
-    std::shared_ptr<Shader> getShader(const std::string& vs, const std::string& fs);
-    std::shared_ptr<AudioBuffer> getAudio(const std::string& path);
+    void flush();
+
+    WeakPtr<Texture> getTexture(const std::string& path);
+    WeakPtr<Shader> getShader(const std::string& vs, const std::string& fs);
+    WeakPtr<AudioBuffer> getAudio(const std::string& path);
 
 private:
     AssetCache<Texture> m_textures;

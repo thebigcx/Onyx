@@ -1,8 +1,12 @@
 #pragma once
 
+#include <onyx/core/Core.h>
+
 #include <vector>
 #include <memory>
 #include <string>
+#include <unordered_map>
+#include <typeindex>
 
 namespace Onyx
 {
@@ -18,11 +22,11 @@ public:
     GameObject(const std::string& name_);
 
     template<typename T>
-    std::shared_ptr<T> getComponent()
+    WeakPtr<T> getComponent()
     {
         for (auto& component : m_components)
         {
-            if (dynamic_cast<T*>(component.get()) != nullptr)
+            if (dynamic_cast<T*>(component.get()) != nullptr) // TODO: don't use dynamic cast
             {
                 return std::static_pointer_cast<T>(component);
             }
@@ -31,9 +35,14 @@ public:
         return nullptr;
     }
 
-    const std::shared_ptr<Transform>& getTransform() const { return m_transform; }
+    WeakPtr<Transform> getTransform() const { return m_transform; }
     
-    void addComponent(Component* component);
+    template<typename T>
+    void addComponent(T* component)
+    {
+        component->object = this;
+        m_components.emplace_back(component);
+    }
 
     template<typename T>
     bool hasComponent()
@@ -49,6 +58,7 @@ public:
         return false;
     }
 
+    void onCollision(GameObject* other);
 
     std::string name;
 

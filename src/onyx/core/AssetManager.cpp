@@ -6,7 +6,14 @@
 namespace Onyx
 {
 
-std::shared_ptr<Texture> AssetManager::getTexture(const std::string& path)
+void AssetManager::flush()
+{
+    m_textures.flush();
+    m_shaders.flush();
+    m_audios.flush();
+}
+
+WeakPtr<Texture> AssetManager::getTexture(const std::string& path)
 {
     if (m_textures.exists(path))
     {
@@ -18,7 +25,7 @@ std::shared_ptr<Texture> AssetManager::getTexture(const std::string& path)
     return texture;
 }
 
-std::shared_ptr<Shader> AssetManager::getShader(const std::string& vs, const std::string& fs)
+WeakPtr<Shader> AssetManager::getShader(const std::string& vs, const std::string& fs)
 {
     if (m_shaders.exists(vs))
     {
@@ -30,7 +37,7 @@ std::shared_ptr<Shader> AssetManager::getShader(const std::string& vs, const std
     return shader;
 }
 
-std::shared_ptr<AudioBuffer> AssetManager::getAudio(const std::string& path)
+WeakPtr<AudioBuffer> AssetManager::getAudio(const std::string& path)
 {
     if (m_audios.exists(path))
     {

@@ -53,7 +53,8 @@ project "test"
         "glfw",
         "GLEW",
         "openal",
-        "freetype"
+        "freetype",
+        "box2d"
     }
 
     filter "configurations:debug"
