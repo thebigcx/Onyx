@@ -24,15 +24,15 @@ void Game::run()
         glClearColor(0, 0, 0, 1);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        m_scene->internalUpdate(5);
-        m_scene->internalRender();
+        m_scene->update(5);
+        m_scene->render();
 
         m_window->update();
     }
 
     for (auto& scene : m_scenes)
     {
-        scene->internalDestroy();
+        scene->destroy();
         scene.reset();
     }
     m_scene = nullptr;
@@ -47,8 +47,9 @@ void Game::changeScene(const std::string& name)
     {
         if (scene->name == name)
         {
+            m_scene.reset();
             m_scene = scene;
-            m_scene->internalInit();
+            m_scene->start();
             return;
         }
     }

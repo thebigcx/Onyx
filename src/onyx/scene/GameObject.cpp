@@ -13,33 +13,25 @@ GameObject::GameObject(const std::string& name_)
 
 void GameObject::update(float dt)
 {
-    for (auto& component : m_components)
+    for (unsigned int i = 0; i < m_components.size(); i++)
     {
-        component->update(dt);
+        m_components[i]->update(dt);
     }
 }
 
 void GameObject::render()
 {
-    for (auto& component : m_components)
+    for (unsigned int i = 0; i < m_components.size(); i++)
     {
-        component->render();
+        m_components[i]->render();
     }
 }
 
 void GameObject::destroy()
 {
-    for (auto& component : m_components)
+    for (unsigned int i = 0; i < m_components.size(); i++)
     {
-        component->destroy();
-    }
-}
-
-void GameObject::onCollision(GameObject* other)
-{
-    for (auto& component : m_components)
-    {
-        component->onCollision(other);
+        m_components[i]->destroy();
     }
 }
 

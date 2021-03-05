@@ -8,3 +8,5 @@ Makefile
 build.sh
 
 .vscode
+
+debug.sh

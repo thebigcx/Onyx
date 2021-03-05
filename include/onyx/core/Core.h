@@ -22,18 +22,23 @@ public:
         return m_ptr.lock();
     }
 
-    T& operator*()
+    T& operator*() const
     {
         assert(valid());
         return *(m_ptr.lock());
     }
 
-    operator std::shared_ptr<T>()
+    std::shared_ptr<T> lock() const
     {
         return m_ptr.lock();
     }
 
-    operator bool()
+    operator std::shared_ptr<T>() const
+    {
+        return m_ptr.lock();
+    }
+
+    operator bool() const
     {
         return valid();
     }
@@ -46,6 +51,11 @@ public:
     T* get() const
     {
         return m_ptr.lock().get();
+    }
+
+    std::weak_ptr<T> getPtr() const
+    {
+        return m_ptr;
     }
 
 private:

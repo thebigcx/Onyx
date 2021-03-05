@@ -7,13 +7,10 @@
 namespace Onyx
 {
 
-class ScriptableObject : public Component
+class Script : public Component
 {
-    template<typename T>
-    friend class Script;
-
 public:
-    virtual ~ScriptableObject() {}
+    virtual ~Script() {}
 
 protected:
     virtual void onStart() = 0;

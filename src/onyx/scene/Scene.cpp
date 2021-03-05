@@ -5,6 +5,7 @@
 #include <onyx/scene/Component.h>
 #include <onyx/scene/Sprite.h>
 
+#include <iostream>
 #include <algorithm>
 
 namespace Onyx
@@ -23,19 +24,12 @@ WeakPtr<GameObject> Scene::createGameObject(const std::string& name)
     return object;
 }
 
-void Scene::removeGameObject(GameObject* object)
+void Scene::removeGameObject(const WeakPtr<GameObject>& object)
 {
-    for (auto it = m_objects.begin(); it != m_objects.end(); it++)
-    {
-        if ((*it).get() == object)
-        {
-            m_deleteList.push_back(it);
-            return;
-        }
-    }
+    m_objects.erase(std::remove(m_objects.begin(), m_objects.end(), object.lock()), m_objects.end());
 }
 
-WeakPtr<GameObject> Scene::duplicateGameObject(const std::shared_ptr<GameObject>& object)
+WeakPtr<GameObject> Scene::duplicateGameObject(const WeakPtr<GameObject>& object)
 {
     auto object2 = std::make_shared<GameObject>(object->name);
 
@@ -53,63 +47,51 @@ WeakPtr<GameObject> Scene::duplicateGameObject(const std::shared_ptr<GameObject>
 
 WeakPtr<GameObject> Scene::findGameObject(const std::string& name) const
 {
-    for (auto& object : m_objects)
+    for (unsigned int i = 0; i < m_objects.size(); i++)
     {
-        if (object->name == name)
+        if (m_objects[i]->name == name)
         {
-            return object;
+            return m_objects[i];
         }
     }
 
     return nullptr;
 }
 
-void Scene::internalUpdate(float dt)
+void Scene::update(float dt)
 {
-    for (auto& object : m_objects)
+    // All m_objects iterations must use indices, as Script components have the ability
+    // to add and remove objects, invalidating iterators. Same goes for components.
+    for (unsigned int i = 0; i < m_objects.size(); i++)
     {
-        if (object)
-            object->update(dt);
+        m_objects[i]->update(dt);
     }
-
-    update(dt);
-
-    for (auto& it : m_deleteList)
-    {
-        if (*it)
-        {
-            (*it)->destroy();
-            m_objects.erase(it);
-        }
-    }
-    m_deleteList.clear();
 }
 
-void Scene::internalRender()
+void Scene::render()
 {
     Renderer::start();
 
-    for (auto& object : m_objects)
+    for (unsigned int i = 0; i < m_objects.size(); i++)
     {
-        if (object)
-            object->render();
+        m_objects[i]->render();
     }
 
     Renderer::end();
 }
 
-void Scene::internalInit()
+void Scene::start()
 {
     m_camera = std::make_shared<Camera>();
 
-    init();
+    onStart();
 }
 
-void Scene::internalDestroy()
+void Scene::destroy()
 {
-    for (auto& object : m_objects)
+    for (unsigned int i = 0; i < m_objects.size(); i++)
     {
-        object->destroy();
+        m_objects[i]->destroy();
     }
 }
 

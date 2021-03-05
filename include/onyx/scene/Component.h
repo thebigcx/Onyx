@@ -18,8 +18,6 @@ public:
     virtual void render() {}
     virtual void destroy() {}
 
-    virtual void onCollision(GameObject* object) {}
-
     template<typename T>
     WeakPtr<T> getComponent() const
     {

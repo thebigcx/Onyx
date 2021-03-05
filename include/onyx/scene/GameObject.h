@@ -57,9 +57,7 @@ public:
 
         return false;
     }
-
-    void onCollision(GameObject* other);
-
+    
     std::string name;
 
 private:

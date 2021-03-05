@@ -4,7 +4,7 @@
 #include <onyx/scene/Sprite.h>
 #include <onyx/renderer/Texture.h>
 #include <onyx/core/Input.h>
-#include <onyx/scene/ScriptableObject.h>
+#include <onyx/scene/Script.h>
 #include <onyx/maths/Quaternion.h>
 #include <onyx/core/AssetManager.h>
 #include <onyx/maths/Math.h>
@@ -14,7 +14,7 @@
 #include <algorithm>
 #include <iostream>
 
-class Bullet : public Onyx::ScriptableObject
+class Bullet : public Onyx::Script
 {
 public:
     void onStart() override
@@ -35,7 +35,7 @@ public:
     Onyx::Vector2f direction;
 };
 
-class Player : public Onyx::ScriptableObject
+class Player : public Onyx::Script
 {
 public:
     void onStart() override
@@ -62,7 +62,7 @@ public:
     static constexpr float speed = 3;
 };
 
-class BulletManager : public Onyx::ScriptableObject
+class BulletManager : public Onyx::Script
 {
 public:
     static Onyx::WeakPtr<Onyx::GameObject> createBullet(const Onyx::Vector2f& position)
@@ -122,7 +122,7 @@ public:
     int bulletCooldown = 0;
 };
 
-class Alien : public Onyx::ScriptableObject
+class Alien : public Onyx::Script
 {
 public:
     void onStart() override
@@ -166,7 +166,7 @@ public:
     int shootCooldown = 60;
 };
 
-class AlienManager : public Onyx::ScriptableObject
+class AlienManager : public Onyx::Script
 {
 public:
     Onyx::WeakPtr<Onyx::GameObject> createAlien()
@@ -214,7 +214,7 @@ ShooterScene::ShooterScene()
 
 }
 
-void ShooterScene::init()
+void ShooterScene::onStart()
 {
     //Onyx::Game::getInstance()->getWindow()->setFullscreen();
     Onyx::Game::getInstance()->getWindow()->setWindowed(1000, 1000);
@@ -236,11 +236,6 @@ void ShooterScene::init()
 
     auto alienManager = createGameObject("Alien Manager");
     alienManager->addComponent(new AlienManager());
-}
-
-void ShooterScene::update(float dt)
-{
-
 }
 
 ShooterGame::ShooterGame()

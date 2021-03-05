@@ -23,15 +23,14 @@ public:
 
     virtual ~Scene() {}
 
-    virtual void update(float dt) = 0;
-    virtual void init() = 0;
+    virtual void onStart() = 0;
 
-    std::shared_ptr<Camera> getCamera() const { return m_camera; }
+    WeakPtr<Camera> getCamera() const { return m_camera; }
 
     WeakPtr<GameObject> createGameObject(const std::string& name);
-    void removeGameObject(GameObject* object);
+    void removeGameObject(const WeakPtr<GameObject>& object);
     
-    WeakPtr<GameObject> duplicateGameObject(const std::shared_ptr<GameObject>& object);
+    WeakPtr<GameObject> duplicateGameObject(const WeakPtr<GameObject>& object);
 
     WeakPtr<GameObject> findGameObject(const std::string& name) const;
 
@@ -43,13 +42,12 @@ private:
     std::shared_ptr<Camera> m_camera;
 
     std::vector<std::shared_ptr<GameObject>> m_objects;
-    std::vector<std::vector<std::shared_ptr<GameObject>>::iterator> m_deleteList;
 
 private:
-    void internalUpdate(float dt);
-    void internalInit();
-    void internalRender();
-    void internalDestroy();
+    void update(float dt);
+    void start();
+    void render();
+    void destroy();
 };
 
 }

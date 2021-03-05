@@ -7,8 +7,7 @@ class ShooterScene : public Onyx::Scene
 public:
     ShooterScene();
 
-    void init() override;
-    void update(float dt) override;
+    void onStart() override;
 
 private:
 };

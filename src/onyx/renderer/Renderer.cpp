@@ -85,7 +85,7 @@ void Renderer::start()
 
 void Renderer::render(const Vector2f& pos, const Vector2f& size, const Vector3f& color)
 {
-    //render(m_data.whiteTexture, pos, size, color);
+    render(m_data.textures[0], pos, size, color);
 }
 
 void Renderer::render(const std::shared_ptr<Texture>& texture, const Vector2f& pos, const Vector2f& size, const Vector3f& color)
@@ -96,6 +96,12 @@ void Renderer::render(const std::shared_ptr<Texture>& texture, const Vector2f& p
 void Renderer::render(const std::shared_ptr<Texture>& texture, const Vector2f& pos, const Vector2f& size, const Vector2f& uv1, const Vector2f& uv2, const Vector3f& color)
 {
     float texIndex = 0.f;
+
+    if (m_data.vertexCount >= m_data.MAX_SPRITES)
+    {
+        end();
+        start();
+    }
 
     for (uint32_t i = 0; i < m_data.textureSlotIndex; i++)
     {
