@@ -3,6 +3,7 @@
 #include <onyx/scene/Transform.h>
 #include <onyx/renderer/Renderer.h>
 #include <onyx/renderer/Texture.h>
+#include <onyx/maths/Math.h>
 
 namespace Onyx
 {
@@ -15,7 +16,15 @@ Sprite::Sprite()
 void Sprite::render()
 {
     auto transform = object->getTransform();
-    Renderer::render(m_texture, transform->translation, transform->scale, m_uv1, m_uv2, m_color);
+
+    if (m_texture)
+    {
+        Renderer::render(m_texture, transform->translation, transform->scale, m_uv1, m_uv2, m_color, -Math::toRadians(transform->rotation));
+    }
+    else
+    {
+        Renderer::render(transform->translation, transform->scale, m_color, -Math::toRadians(transform->rotation));
+    }
 }
 
 void Sprite::setTexture(const std::shared_ptr<Texture>& texture)

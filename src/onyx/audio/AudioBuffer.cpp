@@ -84,6 +84,7 @@ static uint32_t loadFlac(const std::string& path)
 }
 
 AudioBuffer::AudioBuffer(const std::string& path)
+    : m_path(path)
 {
     auto extension = path.substr(path.find_last_of(".") + 1);
 

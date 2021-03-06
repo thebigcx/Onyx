@@ -57,6 +57,18 @@ public:
 
         return false;
     }
+
+    template<typename T>
+    void removeComponent()
+    {
+        for (unsigned int i = 0; i < m_components.size(); i++)
+        {
+            if (dynamic_cast<T*>(m_components[i].get()) != nullptr)
+            {
+                m_components.erase(m_components.begin() + i);
+            }
+        }
+    }
     
     std::string name;
 

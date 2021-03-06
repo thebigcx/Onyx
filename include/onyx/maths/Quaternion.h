@@ -1,5 +1,6 @@
 #pragma once
 
+#include <onyx/maths/Vector2.h>
 #include <onyx/maths/Vector3.h>
 #include <onyx/maths/Vector4.h>
 #include <onyx/maths/Matrix4.h>
@@ -97,6 +98,7 @@ public:
     static T dot(const Quaternion<T>& a, const Quaternion<T>& b);
     static T length(const Quaternion<T>& q);
 
+    static Vector2<T> rotate(const Quaternion<T>& q, const Vector2<T>& v);
     static Vector3<T> rotate(const Quaternion<T>& q, const Vector3<T>& v);
     static Vector4<T> rotate(const Quaternion<T>& q, const Vector4<T>& v);
 
@@ -148,6 +150,12 @@ template<typename T>
 Quaternion<T> operator*(const T& s, const Quaternion<T>& q)
 {
     return q * s;
+}
+
+template<typename T>
+Vector3<T> operator*(const Quaternion<T>& q, const Vector2<T>& v)
+{
+    return q * Vector3f(v.x, v.y, 0.0f);
 }
 
 template<typename T>
@@ -251,6 +259,12 @@ Quaternion<T> Quaternion<T>::inverse(const Quaternion<T>& q)
     Vector3<T> imaginary = Vector3<T>(conjugateValue.x, conjugateValue.y, conjugateValue.z) * absValue;
 
     return Quaternion<T>(scalar, imaginary);
+}
+
+template<typename T>
+Vector2<T> Quaternion<T>::rotate(const Quaternion<T>& q, const Vector2<T>& v)
+{
+    return q * v;
 }
 
 template<typename T>

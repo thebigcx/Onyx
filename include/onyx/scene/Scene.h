@@ -21,9 +21,10 @@ class Scene
 public:
     Scene(const std::string& name_);
 
-    virtual ~Scene() {}
-
-    virtual void onStart() = 0;
+    void update(float dt);
+    void start();
+    void render();
+    void destroy();
 
     WeakPtr<Camera> getCamera() const { return m_camera; }
 
@@ -42,12 +43,7 @@ private:
     std::shared_ptr<Camera> m_camera;
 
     std::vector<std::shared_ptr<GameObject>> m_objects;
-
-private:
-    void update(float dt);
-    void start();
-    void render();
-    void destroy();
+    
 };
 
 }

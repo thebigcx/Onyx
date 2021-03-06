@@ -208,20 +208,25 @@ public:
     int alienCooldown = 0;
 };
 
-ShooterScene::ShooterScene()
-    : Scene("Shooter Scene")
+ShooterGame::ShooterGame()
 {
-
+    
 }
 
-void ShooterScene::onStart()
+void ShooterGame::onStart()
 {
-    //Onyx::Game::getInstance()->getWindow()->setFullscreen();
-    Onyx::Game::getInstance()->getWindow()->setWindowed(1000, 1000);
+    auto scene = std::make_shared<Onyx::Scene>("Shooter Scene");
+    m_scenes.push_back(scene);
+
+    m_currentScene = scene;
+    m_currentScene->start();
+
+    //getWindow()->setFullscreen();
+    getWindow()->setWindowed(1000, 1000);
 
     auto texture = Onyx::AssetManager::getInstance()->getTexture("assets/shooter.png");
     
-    auto player = createGameObject("Player");
+    auto player = scene->createGameObject("Player");
 
     auto sprite = new Onyx::Sprite();
     sprite->setTexture(texture);
@@ -231,15 +236,27 @@ void ShooterScene::onStart()
 
     player->getTransform()->scale = Onyx::Vector2f(100, 100);
 
-    auto bulletManager = createGameObject("Bullet Manager");
+    auto bulletManager = scene->createGameObject("Bullet Manager");
     bulletManager->addComponent(new BulletManager());
 
-    auto alienManager = createGameObject("Alien Manager");
+    auto alienManager = scene->createGameObject("Alien Manager");
     alienManager->addComponent(new AlienManager());
 }
 
-ShooterGame::ShooterGame()
+void ShooterGame::onUpdate(float dt)
 {
-    m_scenes.push_back(std::make_shared<ShooterScene>());
-    changeScene("Shooter Scene");
+    m_currentScene->update(dt);
+}
+
+void ShooterGame::onRender()
+{
+    m_currentScene->render();
+}
+
+void ShooterGame::onDestroy()
+{
+    for (auto& scene : m_scenes)
+    {
+        scene->destroy();
+    }
 }

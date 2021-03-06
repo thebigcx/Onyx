@@ -15,17 +15,6 @@ private:
     std::vector<Onyx::WeakPtr<Onyx::GameObject>> m_pieces;
 };
 
-class ChessScene : public Onyx::Scene
-{
-public:
-    ChessScene()
-        : Onyx::Scene("Chess Game") {}
-
-    void onStart() override;
-
-private:
-};
-
 class ChessGame : public Onyx::Game
 {
 public:

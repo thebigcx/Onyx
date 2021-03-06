@@ -22,6 +22,8 @@ public:
     Vector2u getSize() const { return Vector2u(m_width, m_height); }
     const std::string& getPath() const { return m_path; }
 
+    uint32_t getId() const { return m_id; }
+
 private:
     uint32_t m_id;
     uint32_t m_width, m_height;

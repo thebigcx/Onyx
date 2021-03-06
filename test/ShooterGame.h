@@ -2,18 +2,13 @@
 #include <onyx/scene/Scene.h>
 #include <onyx/audio/AudioSource.h>
 
-class ShooterScene : public Onyx::Scene
-{
-public:
-    ShooterScene();
-
-    void onStart() override;
-
-private:
-};
-
 class ShooterGame : public Onyx::Game
 {
 public:
     ShooterGame();
+
+    void onStart() override;
+    void onUpdate(float dt) override;
+    void onRender() override;
+    void onDestroy() override;
 };

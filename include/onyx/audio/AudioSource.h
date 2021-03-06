@@ -28,6 +28,8 @@ public:
     void stop() const;
     void rewind() const;
 
+    const std::shared_ptr<AudioBuffer>& getAudio() const { return m_buffer; }
+
 private:
     uint32_t m_id;
     

@@ -57,9 +57,9 @@ public:
 
     static void start();
     
-    static void render(const Vector2f& pos, const Vector2f& size, const Vector3f& color);
-    static void render(const std::shared_ptr<Texture>& texture, const Vector2f& pos, const Vector2f& size, const Vector3f& color = Vector3f(1, 1, 1));
-    static void render(const std::shared_ptr<Texture>& texture, const Vector2f& pos, const Vector2f& size, const Vector2f& uv1, const Vector2f& uv2, const Vector3f& color = Vector3f(1, 1, 1));
+    static void render(const Vector2f& pos, const Vector2f& size, const Vector3f& color, float rotation = 0);
+    static void render(const std::shared_ptr<Texture>& texture, const Vector2f& pos, const Vector2f& size, const Vector3f& color = Vector3f(1, 1, 1), float rotation = 0);
+    static void render(const std::shared_ptr<Texture>& texture, const Vector2f& pos, const Vector2f& size, const Vector2f& uv1, const Vector2f& uv2, const Vector3f& color = Vector3f(1, 1, 1), float rotation = 0);
 
     static void render(const std::string& text, const std::shared_ptr<Font>& font);
 

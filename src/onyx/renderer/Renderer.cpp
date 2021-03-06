@@ -2,6 +2,7 @@
 #include <onyx/core/Game.h>
 #include <onyx/scene/Scene.h>
 #include <onyx/renderer/Texture.h>
+#include <onyx/maths/Quaternion.h>
 
 #include <GL/glew.h>
 
@@ -83,17 +84,17 @@ void Renderer::start()
     m_data.textureSlotIndex = 1;
 }
 
-void Renderer::render(const Vector2f& pos, const Vector2f& size, const Vector3f& color)
+void Renderer::render(const Vector2f& pos, const Vector2f& size, const Vector3f& color, float rotation)
 {
-    render(m_data.textures[0], pos, size, color);
+    render(m_data.textures[0], pos, size, color, rotation);
 }
 
-void Renderer::render(const std::shared_ptr<Texture>& texture, const Vector2f& pos, const Vector2f& size, const Vector3f& color)
+void Renderer::render(const std::shared_ptr<Texture>& texture, const Vector2f& pos, const Vector2f& size, const Vector3f& color, float rotation)
 {
-    render(texture, pos, size, Vector2f(0, 0), Vector2f(texture->getSize().x, texture->getSize().y), color);
+    render(texture, pos, size, Vector2f(0, 0), Vector2f(texture->getSize().x, texture->getSize().y), color, rotation);
 }
 
-void Renderer::render(const std::shared_ptr<Texture>& texture, const Vector2f& pos, const Vector2f& size, const Vector2f& uv1, const Vector2f& uv2, const Vector3f& color)
+void Renderer::render(const std::shared_ptr<Texture>& texture, const Vector2f& pos, const Vector2f& size, const Vector2f& uv1, const Vector2f& uv2, const Vector3f& color, float rotation)
 {
     float texIndex = 0.f;
 
@@ -136,25 +137,27 @@ void Renderer::render(const std::shared_ptr<Texture>& texture, const Vector2f& p
         { co1.x, co2.y }
     };
 
-    m_data.vertexPtr->pos = pos;
+    Quaternionf quat(Vector3f(0, 0, rotation));
+
+    m_data.vertexPtr->pos = quat * pos;
     m_data.vertexPtr->uv = uvs[0];
     m_data.vertexPtr->color = color;
     m_data.vertexPtr->index = texIndex;
     m_data.vertexPtr++;
 
-    m_data.vertexPtr->pos = { pos.x + size.x, pos.y };
+    m_data.vertexPtr->pos = quat * Vector2f(pos.x + size.x, pos.y);
     m_data.vertexPtr->uv = uvs[1];
     m_data.vertexPtr->color = color;
     m_data.vertexPtr->index = texIndex;
     m_data.vertexPtr++;
 
-    m_data.vertexPtr->pos = { pos.x + size.x, pos.y + size.y };
+    m_data.vertexPtr->pos = quat * Vector2f(pos.x + size.x, pos.y + size.y);
     m_data.vertexPtr->uv = uvs[2];
     m_data.vertexPtr->color = color;
     m_data.vertexPtr->index = texIndex;
     m_data.vertexPtr++;
 
-    m_data.vertexPtr->pos = { pos.x, pos.y + size.y };
+    m_data.vertexPtr->pos = quat * Vector2f(pos.x, pos.y + size.y);
     m_data.vertexPtr->uv = uvs[3];
     m_data.vertexPtr->color = color;
     m_data.vertexPtr->index = texIndex;

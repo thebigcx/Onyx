@@ -10,6 +10,11 @@ template<typename T>
 class WeakPtr
 {
 public:
+    WeakPtr()
+    {
+
+    }
+
     WeakPtr(const std::shared_ptr<T>& ptr)
         : m_ptr(ptr) {}
     

@@ -21,6 +21,8 @@ public:
     void setTexture(const std::shared_ptr<Texture>& texture);
     void setTexCoords(const Vector2f& uv1, const Vector2f& uv2);
 
+    const std::shared_ptr<Texture>& getTexture() const { return m_texture; }
+
 private:
     std::shared_ptr<Texture> m_texture = nullptr;
     Vector3f m_color;

@@ -83,8 +83,6 @@ void Scene::render()
 void Scene::start()
 {
     m_camera = std::make_shared<Camera>();
-
-    onStart();
 }
 
 void Scene::destroy()
